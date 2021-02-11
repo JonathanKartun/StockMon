@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             x:Class="StockMon.MainPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Settings"
+                     IconImageSource="settings"/>
+        <ToolbarItem Text="Add"
+                     IconImageSource="plus"
+                     x:Name="AddStockToolbutton"
+                     Clicked="AddStockToolbutton_Clicked"
+                     />
+    </ContentPage.ToolbarItems>
+
+    <ListView x:Name="StockMarketListView"
+                Margin="0"
+            IsPullToRefreshEnabled="True"
+            HasUnevenRows="True"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Vertical" Margin="5, 10" Padding="5" BackgroundColor="Bisque">
+
+                        <Grid ColumnSpacing="0" RowSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Label x:Name="StockNameLabel" Padding="8" VerticalTextAlignment="Center"
+                                    FontAttributes="Bold" FontSize="Large"
+                                    Text="{Binding StockName}"/>
+
+                            <Label x:Name="StockCurrentValueLabel" Grid.Column="1" Padding="8" VerticalTextAlignment="Center" FontSize="Large" FontAttributes="Bold">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0}{1}">
+                                            <Binding Path="CurrencySymbol" />
+                                            <Binding Path="CurrentValue" StringFormat="{}{0:0.000#######}"/>
+                                        </MultiBinding>
+                                    </Label.Text>
+                                    </Label>
+
+                            <Label x:Name="StockCodeLabel" Grid.Row="1" Padding="8, 2" FontSize="12"
+                                    TextColor="DodgerBlue"
+                                    Text="{Binding StockCode}"/>
+
+                            <Label x:Name="StockPrevDayLabel" Grid.Column="1" Grid.Row="1" Padding="8, 2" FontSize="12" HorizontalTextAlignment="End"
+                                    TextColor="DodgerBlue"
+                                    Text="{Binding FirstRangeValue, StringFormat='FirstVal: {0:0.000#######}'}"/>
+
+                        </Grid>
+
+                        <Grid Margin="8,-5"
+                            ColumnDefinitions="33.33*, 33.33*, 33.33*"
+                            ColumnSpacing="8"
+                            HorizontalOptions="FillAndExpand">
+                            <Label Grid.Column="0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" FontSize="12" FontAttributes="Bold" Text="Low"/>
+                            <Label Grid.Column="1" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" FontSize="12" FontAttributes="Bold" Text="High"/>
+                            <Label Grid.Column="2" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" FontSize="12" FontAttributes="Bold" Text="Rate"/>
+                            </Grid>
+
+                        <Grid Margin="8,-2"
+                            ColumnDefinitions="33.33*, 33.33*, 33.33*"
+                            ColumnSpacing="8"
+                            HorizontalOptions="FillAndExpand">
+                            <Label x:Name="LowValueLabel" Grid.Column="0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" FontSize="12" Text="{Binding MinValue, StringFormat='{0:0.###}'}"/>
+                            <Label x:Name="HighValueLabel" Grid.Column="1" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" FontSize="12" Text="{Binding HighValue, StringFormat='{0:0.###}'}"/>
+                            <Label x:Name="RateValueLabel" Grid.Column="2" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" FontSize="12" Text="{Binding CurrentRate, StringFormat='{0:0.##} %'}"/>
+                            </Grid>
+
+                        <forms:ChartView x:Name="ChartData" Margin="0" HeightRequest="70" BackgroundColor="CadetBlue" Chart="{Binding TheChart}" />
+                    </StackLayout>
+
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+    </ListView>
+
+</ContentPage>
