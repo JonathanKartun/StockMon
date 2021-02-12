@@ -23,7 +23,9 @@ namespace StockMon.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+
+            string sqLiteDbPath = AppLaunchHelper.getSQLiteDBPath();
+            LoadApplication(new App(sqLiteDbPath));
 
             return base.FinishedLaunching(app, options);
         }

@@ -6,11 +6,13 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Settings"
-                     IconImageSource="settings"/>
+                     IconImageSource="settings"
+                     x:Name="SettingsToolButton"
+                     Clicked="SettingsToolButton_Clicked"/>
         <ToolbarItem Text="Add"
                      IconImageSource="plus"
-                     x:Name="AddStockToolbutton"
-                     Clicked="AddStockToolbutton_Clicked"
+                     x:Name="AddStockToolButton"
+                     Clicked="AddStockToolButton_Clicked"
                      />
     </ContentPage.ToolbarItems>
 
@@ -23,6 +25,13 @@
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
+
+                    <ViewCell.ContextActions>
+                        <MenuItem Clicked="MenuItem_OnDeleteClicked"
+                                  CommandParameter="{Binding .}"
+                                  Text="Delete" IsDestructive="True" />
+                     </ViewCell.ContextActions>
+
                     <StackLayout Orientation="Vertical" Margin="5, 10" Padding="5" BackgroundColor="Bisque">
 
                         <Grid ColumnSpacing="0" RowSpacing="0">

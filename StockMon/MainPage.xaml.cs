@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SQLite;
+using StockMon.Engines;
+using StockMon.Helpers;
 using StockMon.Models.Cells;
+using StockMon.Models.SQLite;
 using StockMon.Services;
 using Xamarin.Forms;
 
@@ -20,7 +24,7 @@ namespace StockMon
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await BeginQuery();
+            await GetSQLiteStockEntries();
         }
 
         void BasicSetup()
@@ -29,44 +33,63 @@ namespace StockMon
             StockMarketListView.Refreshing += StockMarketListView_Refreshing;
         }
 
-        async Task BeginQuery()
+        private async void StockMarketListView_Refreshing(object sender, EventArgs e)
         {
-            List<ChartRow> tempData = new List<ChartRow>();
-            tempData.Add(await ChartDataService.QueryStockInformation("Bitcoin USD", "BTC-USD"));
-            tempData.Add(await ChartDataService.QueryStockInformation("Dogecoin USD", "DOGE-USD"));
-            tempData.Add(await ChartDataService.QueryStockInformation("Stellar USD", "XLM-USD"));
+            await GetSQLiteStockEntries();
+            StockMarketListView.EndRefresh();
+        }
 
-            tempData.Add(await ChartDataService.QueryStockInformation("Tesla, Inc.", "TSLA"));
-            tempData.Add(await ChartDataService.QueryStockInformation("AMS AG ", "AMS.SW"));
-            tempData.Add(await ChartDataService.QueryStockInformation("GameStop Corp.", "GME"));
-            tempData.Add(await ChartDataService.QueryStockInformation("AMC Entertainment Holdings, Inc.", "AMC"));
-            tempData.Add(await ChartDataService.QueryStockInformation("Barrick Gold Corporation", "GOLD"));
+        private void SettingsToolButton_Clicked(object sender, EventArgs e)
+        {
+            DisplayAlert("Settings", "Will be implementing custom settings in V2\n\n\nFeedback Welcomed\n\nJonathan Kartun", "Cool!");
+        }
 
-            tempData.Add(await ChartDataService.QueryStockInformation("AtariToken USD", "ATRI-USD"));
-            tempData.Add(await ChartDataService.QueryStockInformation("Virgin Galactic Holdings, Inc.", "SPCE"));
-            tempData.Add(await ChartDataService.QueryStockInformation("Sundial Growers Inc.", "SNDL"));
-            tempData.Add(await ChartDataService.QueryStockInformation("DraftKings Inc", "DKNG"));
+        private void AddStockToolButton_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new AddStockPage());
+        }
 
-            tempData.Add(await ChartDataService.QueryStockInformation("Wirecard AG - Frankfurt - Delayed Price.", "WDI.F"));
-            tempData.Add(await ChartDataService.QueryStockInformation("Wirecard AG - Dusseldorf - Delayed Price.", "WDI.DU"));
-            tempData.Add(await ChartDataService.QueryStockInformation("Wirecard AG - Berlin - Delayed Price.", "WDI.BE"));
-
-            tempData.Add(await ChartDataService.QueryStockInformation("Aurora Cannabis Inc", "ACB"));
-
-            listData = tempData;
+        private async Task GetSQLiteStockEntries()
+        {
+            List<StockListEntries> stockItems = SQLiteDatabaseEngine<StockListEntries>.ReadRecordToList();
+            if (stockItems.Count == 0)
+            {
+                return;
+            }
+            listData = await ChartRow.ConvertStockEntriesToChartData(stockItems);
             StockMarketListView.ItemsSource = null;
             StockMarketListView.ItemsSource = listData;
         }
 
-        private async void StockMarketListView_Refreshing(object sender, EventArgs e)
+        #region ViewCell Swipe Menu Actions
+
+        void MenuItem_OnDeleteClicked(System.Object sender, System.EventArgs e)
         {
-            await BeginQuery();
-            StockMarketListView.EndRefresh();
+            if (sender is MenuItem item) {
+                if (item.CommandParameter is ChartRow chartRow)
+                {
+                    deleteChartRow(chartRow);
+                }
+            }
         }
 
-        private void AddStockToolbutton_Clicked(object sender, EventArgs e)
+        async void deleteChartRow(ChartRow chartRow)
         {
-            Navigation.PushAsync(new AddStockPage());
+            var stockName = chartRow.StockName;
+            var stockCode = chartRow.StockCode;
+            var deleted = await SQLiteDatabaseEngine<StockListEntries>.DeleteRecord(row => row.StockLongName == stockName && row.StockCode == stockCode);
+            if (!deleted.IsValid)
+            {
+                var error = deleted.GetErrorResponse();
+                await DisplayAlert("Error Deleting", "Error in deleting row", "OK");
+                return;
+            }
+            //Remove from visual current list
+            listData.Remove(chartRow);
+            StockMarketListView.ItemsSource = null; //Triggers refresh
+            StockMarketListView.ItemsSource = listData;
         }
+
+        #endregion
     }
 }

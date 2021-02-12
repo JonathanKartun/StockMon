@@ -42,13 +42,36 @@ namespace StockMon.Models.JSON
             public string symbol { get; set; }
             public string index { get; set; }
             public long score { get; set; }
-            //Input string '2.27378E8' is not a valid integer.Path 'quotes[0].score', line 1, position 159.
             public string typeDisp { get; set; }
             public string longname { get; set; }
             public bool isYahooFinance { get; set; }
             public string name { get; set; }
             public string permalink { get; set; }
+
+        public static void FixNamesForResults(List<Quote> query)
+        {
+            for (int i = query.Count - 1; i >= 0; i--)
+            {
+                var q = query[i];
+                var name = q.name;
+                if (name == null)
+                {
+                    name = q.shortname;
+                    if (name == null)
+                    {
+                        name = q.longname;
+                    }
+                }
+                q.name = name;
+
+                if (q.symbol == null) // || !q.isYahooFinance)
+                {
+                    query.Remove(q);
+                    continue;
+                }
+            }
         }
+    }
 
         public class News
         {
