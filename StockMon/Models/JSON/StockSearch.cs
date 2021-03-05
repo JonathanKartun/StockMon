@@ -61,6 +61,10 @@ namespace StockMon.Models.JSON
                     {
                         name = q.longname;
                     }
+                    if (name == null)
+                    {
+                        name = q.symbol; //If it's finally blank then use the symbol
+                    }
                 }
                 q.name = name;
 

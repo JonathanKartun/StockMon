@@ -25,12 +25,20 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Orientation="Vertical" Margin="2, 4" Padding="10" BackgroundColor="Bisque">
-                                <Grid
-                                    ColumnDefinitions="50*, 50*"
-                                    HorizontalOptions="FillAndExpand">
-                                    <Label x:Name="LongNameLabel" Grid.Column="0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontSize="20" FontAttributes="Bold" TextColor="Black"
+                            <Grid ColumnSpacing="8" RowSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                    <Label x:Name="LongNameLabel" Grid.Column="0" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" FontSize="20" FontAttributes="Bold" TextColor="Black"
                                            Text="{Binding name}"/>
-                                    <Label x:Name="CodeLabel" Grid.Column="1" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontSize="14" FontAttributes="Bold" TextColor="DarkGray">
+
+                                    <Label x:Name="CodeLabel" Grid.Column="1" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="Start" FontSize="14" FontAttributes="Bold" TextColor="DarkGray">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}{0}-{1}">
                                                 <Binding Path="quoteType" />
@@ -38,9 +46,11 @@
                                             </MultiBinding>
                                         </Label.Text>
                                     </Label>
-                                </Grid>
-                                <Label x:Name="SymbolLabel" Grid.Column="1" HorizontalTextAlignment="Start" FontSize="16" FontAttributes="Bold" TextColor="DodgerBlue"
+
+                                <Label x:Name="SymbolLabel" Grid.Column="0" Grid.Row="1" HorizontalTextAlignment="Start" FontSize="16" FontAttributes="Bold" TextColor="DodgerBlue"
                                        Text="{Binding symbol}"/>
+
+                                </Grid>
 
                             </StackLayout>
 

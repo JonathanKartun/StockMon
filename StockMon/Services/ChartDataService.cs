@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microcharts;
 using SkiaSharp;
@@ -20,7 +21,7 @@ namespace StockMon.Services
         {
             ChartRow RowData = new ChartRow();
 
-            string searchFor = stockCode;
+            string searchFor = WebUtility.UrlEncode(stockCode.Trim());
             string region = "US";
             string language = "en-US";
             string interval = Intervals.Days1.GetDescriptionString();
@@ -28,10 +29,11 @@ namespace StockMon.Services
 
             List<Result> chartData = await YahooAPIQuery.GetChartData(searchFor, region, language, interval, range);
             int takeIndex = 0;
-            if (chartData.Count == 0 )
+            if (chartData == null || chartData.Count == 0 )
             {
                 return CreateErrorObject(StockName, stockCode);
             }
+
             Result result = chartData[takeIndex];
 
             double prevClose = result.meta.chartPreviousClose;
@@ -39,17 +41,21 @@ namespace StockMon.Services
 
             RowData.CurrencySymbol = CurrencyConverter.CurrencyCodeToSymbol(result.meta.currency);
             RowData.StockName = StockName;
-            RowData.StockCode = searchFor;
+            RowData.StockCode = stockCode;
+            RowData.VisualStockCode = stockCode;
             RowData.CurrentValue = regMarketPrice;
             RowData.FirstRangeValue = prevClose;
             RowData.CurrentRate = (float)(prevClose / regMarketPrice * 100.0f);
             RowData.ChartData = result.indicators.adjclose[takeIndex].adjclose as List<double?>;
 
-            RowData.MinValue = (double)RowData.ChartData.Min();
-            RowData.HighValue = (double)RowData.ChartData.Max();
+            if (RowData.ChartData != null)
+            {
+                RowData.MinValue = (double)RowData.ChartData.Min();
+                RowData.HighValue = (double)RowData.ChartData.Max();
 
-            var chartEntries = RowData.ChartData.Where(chart => chart != null).Select(chart => new Microcharts.ChartEntry((float)chart - (float)prevClose)).ToList();
-            RowData.TheChart = new LineChart { Entries = chartEntries, LineMode = LineMode.Straight, PointMode = PointMode.Square, BackgroundColor = SKColors.Transparent, LineAreaAlpha = 0, AnimationDuration = new TimeSpan(0), IsAnimated = false };
+                var chartEntries = RowData.ChartData.Where(chart => chart != null).Select(chart => new Microcharts.ChartEntry((float)chart - (float)prevClose)).ToList();
+                RowData.TheChart = new LineChart { Entries = chartEntries, LineMode = LineMode.Straight, PointMode = PointMode.Square, BackgroundColor = SKColors.Transparent, LineAreaAlpha = 0, AnimationDuration = new TimeSpan(0), IsAnimated = false };
+            }
 
             return await Task.FromResult(RowData);
         }
@@ -64,7 +70,8 @@ namespace StockMon.Services
             badResult.meta.regularMarketPrice = -1;
             RowData.CurrencySymbol = "?";
             RowData.StockName = "? " + StockName + "\r\n> FAILED LOADING";
-            RowData.StockCode = stockCode + " - FAILED TO LOAD!";
+            RowData.StockCode = stockCode;
+            RowData.VisualStockCode = stockCode + " - FAILED TO LOAD!";
             RowData.CurrentValue = -1;
             RowData.FirstRangeValue = -1;
             RowData.CurrentRate= -1.0f;

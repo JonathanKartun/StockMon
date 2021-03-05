@@ -12,6 +12,7 @@ namespace StockMon.Models.Cells
         public string CurrencySymbol { get; set; }
         public string StockName { get; set; }
         public string StockCode { get; set; }
+        public string VisualStockCode { get; set; }
         public double CurrentValue { get; set; }
         public double MinValue { get; set; }
         public double HighValue { get; set; }

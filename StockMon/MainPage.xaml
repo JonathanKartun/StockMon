@@ -60,7 +60,7 @@
 
                             <Label x:Name="StockCodeLabel" Grid.Row="1" Padding="8, 2" FontSize="12"
                                     TextColor="DodgerBlue"
-                                    Text="{Binding StockCode}"/>
+                                    Text="{Binding VisualStockCode}"/>
 
                             <Label x:Name="StockPrevDayLabel" Grid.Column="1" Grid.Row="1" Padding="8, 2" FontSize="12" HorizontalTextAlignment="End"
                                     TextColor="DodgerBlue"

@@ -77,7 +77,7 @@ namespace StockMon
         {
             var stockName = chartRow.StockName;
             var stockCode = chartRow.StockCode;
-            var deleted = await SQLiteDatabaseEngine<StockListEntries>.DeleteRecord(row => row.StockLongName == stockName && row.StockCode == stockCode);
+            var deleted = await SQLiteDatabaseEngine<StockListEntries>.DeleteRecord(row => row.StockCode == stockCode);
             if (!deleted.IsValid)
             {
                 var error = deleted.GetErrorResponse();

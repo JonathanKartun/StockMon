@@ -53,8 +53,8 @@ namespace StockMon.Models.JSON
         public string symbol { get; set; }
         public string exchangeName { get; set; }
         public string instrumentType { get; set; }
-        public int firstTradeDate { get; set; }
-        public int regularMarketTime { get; set; }
+        public long? firstTradeDate { get; set; }
+        public long regularMarketTime { get; set; }
         public int gmtoffset { get; set; }
         public string timezone { get; set; }
         public string exchangeTimezoneName { get; set; }
