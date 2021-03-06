@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using SQLite;
 using StockMon.Helpers;
 using StockMon.Models.Application;
-using StockMon.Models.SQLite;
 
 namespace StockMon.Engines
 {
@@ -25,13 +24,13 @@ namespace StockMon.Engines
                         return Task.FromResult( new ResponseClass("Succesfully Inserted!"));
                     } else {
                         var errorMsg = "Insert Failed";
-                        return Task.FromResult(new ResponseClass(true, -1, errorMsg));
+                        return Task.FromResult(new ResponseClass(-1, errorMsg));
                     }
                 }
             }
             catch (Exception ex)
             {
-                return Task.FromResult(new ResponseClass(true, ex.HResult, ex.Message));
+                return Task.FromResult(new ResponseClass(ex.HResult, ex.Message));
             }
         }
 
@@ -44,8 +43,8 @@ namespace StockMon.Engines
             using (SQLiteConnection conn = new SQLiteConnection(Constants.SQLiteDbLocation))
             {
                 conn.CreateTable<T>();
-                var bla = conn.Table<T>().ToList();
-                return conn.Table<T>();
+                var records = conn.Table<T>();
+                return records;
             }
         }
 
@@ -54,8 +53,8 @@ namespace StockMon.Engines
             using (SQLiteConnection conn = new SQLiteConnection(Constants.SQLiteDbLocation))
             {
                 conn.CreateTable<T>();
-                var bla = conn.Table<T>().ToList();
-                return conn.Table<T>().ToList();
+                var records = conn.Table<T>().ToList();
+                return records;
             }
         }
 
@@ -70,6 +69,7 @@ namespace StockMon.Engines
                 int rows;
                 using (SQLiteConnection conn = new SQLiteConnection(Constants.SQLiteDbLocation))
                 {
+                    conn.CreateTable<T>();
                     rows = conn.Table<T>().Where(whereClause).Delete();
                 }
                 if (rows > 0)
@@ -79,14 +79,13 @@ namespace StockMon.Engines
                 else
                 {
                     var errorMsg = "Delete Failed";
-                    return Task.FromResult(new ResponseClass(true, -1, errorMsg));
+                    return Task.FromResult(new ResponseClass(-1, errorMsg));
                 }
             }
             catch (Exception ex)
             {
-                return Task.FromResult(new ResponseClass(true, ex.HResult, ex.Message));
+                return Task.FromResult(new ResponseClass(ex.HResult, ex.Message));
             }
-
         }
 
         #endregion

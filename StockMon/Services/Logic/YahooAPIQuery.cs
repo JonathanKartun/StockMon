@@ -29,7 +29,6 @@ namespace StockMon.Services.Logic
             }
             catch (Exception ex)
             {
-                var x = ex.Message;
                 Console.WriteLine(ex.Message);
             }
 

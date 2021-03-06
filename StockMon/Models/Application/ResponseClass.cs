@@ -1,5 +1,4 @@
-﻿using System;
-namespace StockMon.Models.Application
+﻿namespace StockMon.Models.Application
 {
     public class ResponseClass
     {
@@ -11,7 +10,7 @@ namespace StockMon.Models.Application
         private eStates State;
         public bool IsValid { get { return State.Equals(eStates.valid); } }
         private string Message;
-        private int ErrorCode;
+        private readonly int ErrorCode;
 
         public ResponseClass(string SuccessMessage)
         {
@@ -19,7 +18,7 @@ namespace StockMon.Models.Application
             this.Message = SuccessMessage;
         }
 
-        public ResponseClass(bool isError, int ErrCode, string ErrMessage)
+        public ResponseClass(int ErrCode, string ErrMessage)
         {
             this.State = eStates.error;
             this.ErrorCode = ErrCode;

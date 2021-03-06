@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using StockMon.Helpers;
-using Xamarin.Forms;
 
 namespace StockMon.Models.JSON
 {

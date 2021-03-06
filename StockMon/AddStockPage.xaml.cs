@@ -8,7 +8,6 @@ using StockMon.Models.JSON;
 using StockMon.Models.SQLite;
 using StockMon.Services.Logic;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace StockMon
 {
@@ -21,7 +20,7 @@ namespace StockMon
             InitializeComponent();
         }
 
-        void Search_Clicked(System.Object sender, System.EventArgs e)
+        void Search_Clicked(object sender, EventArgs e)
         {
             DismissKeyboard();
             BeginQuery();
@@ -53,7 +52,7 @@ namespace StockMon
             }
         }
 
-        async void StockQueryResultsListView_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
+        async void StockQueryResultsListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             Quote qItem = (Quote)e.Item;
             var StockName = qItem.name;
@@ -74,7 +73,7 @@ namespace StockMon
             }
         }
 
-        void AddToDatabase(String StockName, String StockCode)
+        void AddToDatabase(string StockName, string StockCode)
         {
             StockListEntries entry = new StockListEntries
             {
@@ -105,7 +104,7 @@ namespace StockMon
             StockSearchInput.Unfocus();
         }
 
-        void StockSearchInput_Completed(System.Object sender, System.EventArgs e)
+        void StockSearchInput_Completed(object sender, EventArgs e)
         {
             DismissKeyboard();
             BeginQuery();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microcharts;
 using StockMon.Models.SQLite;
@@ -21,6 +20,8 @@ namespace StockMon.Models.Cells
         public List<double?> ChartData { get; set; }
 
         public LineChart TheChart { get; set; }
+
+        public bool FailedRetrival { get; set; }
 
         //Helper function to convert to the ListView Chart Row format
         public static async Task<List<ChartRow>> ConvertStockEntriesToChartData(List<StockListEntries> entries)

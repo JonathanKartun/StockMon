@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SQLite;
 using StockMon.Engines;
-using StockMon.Helpers;
 using StockMon.Models.Cells;
 using StockMon.Models.SQLite;
-using StockMon.Services;
 using Xamarin.Forms;
 
 namespace StockMon
@@ -63,17 +60,17 @@ namespace StockMon
 
         #region ViewCell Swipe Menu Actions
 
-        void MenuItem_OnDeleteClicked(System.Object sender, System.EventArgs e)
+        void MenuItem_OnDeleteClicked(object sender, EventArgs e)
         {
             if (sender is MenuItem item) {
                 if (item.CommandParameter is ChartRow chartRow)
                 {
-                    deleteChartRow(chartRow);
+                    DeleteChartRow(chartRow);
                 }
             }
         }
 
-        async void deleteChartRow(ChartRow chartRow)
+        async void DeleteChartRow(ChartRow chartRow)
         {
             var stockName = chartRow.StockName;
             var stockCode = chartRow.StockCode;

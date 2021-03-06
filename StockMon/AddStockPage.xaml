@@ -38,7 +38,7 @@
                                     <Label x:Name="LongNameLabel" Grid.Column="0" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" FontSize="20" FontAttributes="Bold" TextColor="Black"
                                            Text="{Binding name}"/>
 
-                                    <Label x:Name="CodeLabel" Grid.Column="1" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="Start" FontSize="14" FontAttributes="Bold" TextColor="DarkGray">
+                                    <Label x:Name="CodeLabel" Grid.Column="1" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="Start" FontSize="14" FontAttributes="Bold" TextColor="DarkGray" Padding="0,2">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}{0}-{1}">
                                                 <Binding Path="quoteType" />

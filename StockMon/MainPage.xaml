@@ -49,14 +49,23 @@
                                     FontAttributes="Bold" FontSize="Large"
                                     Text="{Binding StockName}"/>
 
-                            <Label x:Name="StockCurrentValueLabel" Grid.Column="1" Padding="8" VerticalTextAlignment="Center" FontSize="Large" FontAttributes="Bold">
+                            <Label x:Name="StockCurrentValueLabel" Grid.Column="1" Padding="8" VerticalTextAlignment="Center" VerticalOptions="Start" HorizontalOptions="EndAndExpand" FontSize="Large" FontAttributes="Bold">
                                     <Label.Text>
                                         <MultiBinding StringFormat="{}{0}{1}">
                                             <Binding Path="CurrencySymbol" />
                                             <Binding Path="CurrentValue" StringFormat="{}{0:0.000#######}"/>
                                         </MultiBinding>
                                     </Label.Text>
-                                    </Label>
+
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Path=FailedRetrival}" Value="true">
+                                        <Setter Property="Text" Value="-.----" />
+                                        <Setter TargetName="StockCodeLabel" Property="TextColor" Value="Red" />
+                                        <Setter TargetName="StockPrevDayLabel" Property="TextColor" Value="Red" />
+                                        <Setter TargetName="StockPrevDayLabel" Property="Text" Value="-----" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
 
                             <Label x:Name="StockCodeLabel" Grid.Row="1" Padding="8, 2" FontSize="12"
                                     TextColor="DodgerBlue"

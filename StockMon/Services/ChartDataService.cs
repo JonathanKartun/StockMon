@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -63,23 +62,11 @@ namespace StockMon.Services
         static ChartRow CreateErrorObject(string StockName, string stockCode)
         {
             ChartRow RowData = new ChartRow();
-            List<Result> chartData = new List<Result>();
-            Result badResult = new Result();
-            badResult.meta = new Meta();
-            badResult.meta.chartPreviousClose = -1;
-            badResult.meta.regularMarketPrice = -1;
-            RowData.CurrencySymbol = "?";
+            RowData.CurrencySymbol = "";
             RowData.StockName = "? " + StockName + "\r\n> FAILED LOADING";
             RowData.StockCode = stockCode;
             RowData.VisualStockCode = stockCode + " - FAILED TO LOAD!";
-            RowData.CurrentValue = -1;
-            RowData.FirstRangeValue = -1;
-            RowData.CurrentRate= -1.0f;
-            RowData.MinValue = -1.0f;
-            RowData.HighValue = -1.0f;
-
-            var cd = new[] { new Microcharts.ChartEntry(0.0f) };
-            RowData.TheChart = new LineChart { Entries = cd };
+            RowData.FailedRetrival = true;
             return RowData;
         }
     }

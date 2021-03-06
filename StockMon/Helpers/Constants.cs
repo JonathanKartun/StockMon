@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
-using StockMon.Helpers.Extensions;
 
 namespace StockMon.Helpers
 {
     public class Constants
     {
-        public static string SQLiteDbLocation = String.Empty;
+        public static string SQLiteDbLocation = string.Empty;
 
         public const string YAHOO_CHART_QUERY = "https://query1.finance.yahoo.com/v8/finance/chart/{0}?region={1}&lang={2}&includePrePost={3}&interval={4}&range={5}";
 
