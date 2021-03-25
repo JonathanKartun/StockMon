@@ -29,5 +29,10 @@
     <Folder Include="Models\SQLite\" />
     <Folder Include="Engines\" />
     <Folder Include="Models\Application\" />
+    <Folder Include="StocksSubData\" />
+    <Folder Include="Models\ViewModels\" />
+    <Folder Include="Models\ViewModels\Converters\" />
+    <Folder Include="Models\ViewModels\MVVMHelpers\" />
+    <Folder Include="Models\ViewModels\Commands\" />
   </ItemGroup>
 </Project>

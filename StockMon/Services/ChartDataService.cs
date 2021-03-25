@@ -38,7 +38,7 @@ namespace StockMon.Services
             double prevClose = result.meta.chartPreviousClose;
             double regMarketPrice = result.meta.regularMarketPrice;
 
-            RowData.CurrencySymbol = CurrencyConverter.CurrencyCodeToSymbol(result.meta.currency);
+            RowData.CurrencySymbol = CurrencySymbolConverter.CurrencyCodeToSymbol(result.meta.currency);
             RowData.StockName = StockName;
             RowData.StockCode = stockCode;
             RowData.VisualStockCode = stockCode;

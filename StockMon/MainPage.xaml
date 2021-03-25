@@ -2,8 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-             x:Class="StockMon.MainPage">
+             x:Class="StockMon.MainPage"
+             xmlns:converters="clr-namespace:StockMon.Models.ViewModels.Converters"
+             >
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:CurrencyValueConverter x:Key="CurrencyValueConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Settings"
                      IconImageSource="settings"
@@ -12,11 +20,11 @@
         <ToolbarItem Text="Add"
                      IconImageSource="plus"
                      x:Name="AddStockToolButton"
-                     Clicked="AddStockToolButton_Clicked"
                      />
     </ContentPage.ToolbarItems>
 
     <ListView x:Name="StockMarketListView"
+              ItemsSource="{Binding ChartListData}"
                 Margin="0"
             IsPullToRefreshEnabled="True"
             HasUnevenRows="True"
@@ -51,9 +59,9 @@
 
                             <Label x:Name="StockCurrentValueLabel" Grid.Column="1" Padding="8" VerticalTextAlignment="Center" VerticalOptions="Start" HorizontalOptions="EndAndExpand" FontSize="Large" FontAttributes="Bold">
                                     <Label.Text>
-                                        <MultiBinding StringFormat="{}{0}{1}">
+                                        <MultiBinding Converter="{StaticResource CurrencyValueConverter}">
                                             <Binding Path="CurrencySymbol" />
-                                            <Binding Path="CurrentValue" StringFormat="{}{0:0.000#######}"/>
+                                            <Binding Path="CurrentValue"/>
                                         </MultiBinding>
                                     </Label.Text>
 

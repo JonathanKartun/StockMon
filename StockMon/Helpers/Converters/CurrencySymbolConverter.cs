@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace StockMon.Helpers.Converters
 {
-    public class CurrencyConverter
+    public class CurrencySymbolConverter
     {
         /// <summary>
         /// Converts a Currency Code to it's corresponding Symbol
