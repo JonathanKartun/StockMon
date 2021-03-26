@@ -26,7 +26,6 @@ namespace StockMon
         void BasicSetup()
         {
             Title = "Stock Mon";
-            StockMarketListView.Refreshing += StockMarketListView_Refreshing;
         }
 
         private async void StockMarketListView_Refreshing(object sender, EventArgs e)
@@ -38,11 +37,6 @@ namespace StockMon
         private void SettingsToolButton_Clicked(object sender, EventArgs e)
         {
             DisplayAlert("Settings", "Will be implementing custom settings in V2\n\n\nFeedback Welcomed\n\nJonathan Kartun", "Cool!");
-        }
-
-        private void AddStockToolButton_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new AddStockPage());
         }
 
         #region ViewCell Swipe Menu Actions

@@ -26,21 +26,21 @@ namespace StockMon.Models.ViewModels
 
         public async Task UpdateStockEntries()
         {
-            List<StockListEntries> stockItems = SQLiteDatabaseEngine<StockListEntries>.ReadRecordToList();
+            List<StockListEntries> stockItems = SQLiteDatabaseHelper<StockListEntries>.ReadRecordToList();
             if (stockItems.Count == 0)
             {
                 return;
             }
 
             var chartData = await ChartRow.ConvertStockEntriesToChartData(stockItems);
-            UpdateToReplaceListData(chartData);
+            CorrectListEntriesWhichUpdated(chartData);
         }
 
         public async void DeleteChartRow(ChartRow chartRow)
         {
             var stockName = chartRow.StockName;
             var stockCode = chartRow.StockCode;
-            var deleted = await SQLiteDatabaseEngine<StockListEntries>.DeleteRecord(row => row.StockCode == stockCode);
+            var deleted = await SQLiteDatabaseHelper<StockListEntries>.DeleteRecord(row => row.StockCode == stockCode);
             if (!deleted.IsValid)
             {
                 var error = deleted.GetErrorResponse();
@@ -50,7 +50,7 @@ namespace StockMon.Models.ViewModels
             ChartListData.Remove(chartRow);
         }
 
-        private void UpdateToReplaceListData(List<ChartRow> chartData)
+        private void CorrectListEntriesWhichUpdated(List<ChartRow> chartData)
         {
             if (ChartListData == null) return;
             for (int i = 0; i < chartData.Count; i++)

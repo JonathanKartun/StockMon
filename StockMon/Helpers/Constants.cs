@@ -11,6 +11,7 @@ namespace StockMon.Helpers
 
         public const string YAHOO_STOCK_SEARCH_QUERY = "https://query1.finance.yahoo.com/v1/finance/search?q={0}&region={1}&lang={2}&quotesCount={3}&newsCount={4}&enableFuzzyQuery={5}&quotesQueryId=tss_match_phrase_query&multiQuoteQueryId=multi_quote_single_token_query&newsQueryId=news_cie_vespa&enableCb=true&enableNavLinks=true&enableEnhancedTrivialQuery=true";
 
+        //Seems only supported time frames.
         public enum Intervals
         {
             [Description("1m")] Minutes1,

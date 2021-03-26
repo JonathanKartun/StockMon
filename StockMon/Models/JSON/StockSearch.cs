@@ -46,7 +46,7 @@ namespace StockMon.Models.JSON
         public string name { get; set; }
         public string permalink { get; set; }
 
-        public static void FixNamesForResults(List<Quote> query)
+        public static void UpdateUsableStockNamesForResults(ref List<Quote> query)
         {
             for (int i = query.Count - 1; i >= 0; i--)
             {

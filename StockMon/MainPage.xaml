@@ -27,6 +27,7 @@
               ItemsSource="{Binding ChartListData}"
                 Margin="0"
             IsPullToRefreshEnabled="True"
+              Refreshing="StockMarketListView_Refreshing"
             HasUnevenRows="True"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand">
